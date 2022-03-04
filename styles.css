@@ -12,3 +12,7 @@
     width: 40px;
     border: 4px outset;
 }
+
+.bomb{
+    background-color: orange;
+}
