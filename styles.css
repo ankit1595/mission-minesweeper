@@ -13,6 +13,11 @@
     border: 4px outset;
 }
 
+.checked{
+    border-style: 4px inset;
+    background-color: rgb(88, 88, 88);
+}
+
 .bomb{
     background-color: orange;
 }
