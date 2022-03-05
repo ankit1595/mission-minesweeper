@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             // ctrl and left click for flag placement
-            square.oncontextmenu = function(e){
+            square.oncontextmenu = function (e) {
                 e.preventDefault();
                 addFlag(square);
             }
@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             square.classList.add("flag");
             square.innerHTML = '🚩';
             flag++;
+            checkForWin();
         } else {
             square.classList.remove('flag')
             square.innerHTML = '';
@@ -191,6 +192,20 @@ document.addEventListener('DOMContentLoaded', () => {
         //styling for clicked bomb
         document.getElementById(square.id).style.borderStyle = "inset";
         document.getElementById(square.id).style.backgroundColor = "red";
+
+    }
+
+    //check for win
+    function checkForWin() {
+        let matches = 0;
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].classList.contains('flag') && squares[i].classList.contains('bomb'))
+                matches++;
+            if (matches === bombsAmount) {
+                console.log("YOU WIN!!!")
+                isGameOver = true;
+            }
+        }
 
     }
 
