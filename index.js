@@ -72,13 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function clickEventHandler(square) {
 
         if (isGameOver) return;
-        if (square.classList.contains('checked') || square.classList.contains('flag')) return;
+        if (square.classList.contains('checked') /*|| square.classList.contains('flag')*/ ) return;
         if (square.classList.contains('bomb')) {
             console.log("Game OVer");
             isGameOver = true;
-        } 
-        
-        else {
+        } else {
             let total = square.getAttribute('data');
             if (total != 0) {
                 square.classList.add('checked');
@@ -90,7 +88,71 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    //checking neighbouring cells once '0' cell is clicked
+    function checkSquare(square) {
 
+
+        let currentId = parseInt(square.id);
+        const isLeftEdge = currentId % width === 0;
+        const isRightEdge = currentId % width === width - 1;
+
+        // console.log(typeof currentId)
+        setTimeout(() => {
+
+
+            //checking north-west
+            if (currentId > 9 && !isLeftEdge) {
+                const newId = currentId - width - 1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking north cell
+            if (currentId > 9) {
+                const newId = currentId - width;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking north-east cell
+            if (currentId > 9 && !isRightEdge) {
+                const newId = currentId - width + 1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking east cell
+            if (currentId < 99 && !isRightEdge) {
+                const newId = currentId + 1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking south-east cell
+            if (currentId < 90 && !isRightEdge) {
+                const newId = currentId + width + 1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking south cell
+            if (currentId < 90) {
+                const newId = currentId + width;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking south-west cell
+            if (currentId < 90 && !isLeftEdge) {
+                const newId = currentId + width -1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+            //checking west cell
+            if (currentId > 0 && !isLeftEdge) {
+                const newId = currentId -1;
+                const newSquare = document.getElementById(newId);
+                clickEventHandler(newSquare);
+            }
+
+
+        }, 10);
+
+    }
 
 
 
