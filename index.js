@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid');
     let width = 10;
     let bombsAmount = 20;
+    let flag = 0;
     let squares = [];
     let isGameOver = false;
 
@@ -26,7 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
             square.addEventListener('click', function (e) {
                 clickEventHandler(square);
             });
+
+
+            // ctrl and left click for flag placement
+            square.oncontextmenu = function(e){
+                e.preventDefault();
+                addFlag(square);
+            }
+
+
         }
+
 
 
 
@@ -68,14 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createBoard();
 
+    //add flag on right click
+    function addFlag(square) {
+        if (isGameOver) return
+        if (!square.classList.contains("checked") && (flag < bombsAmount) && !square.classList.contains('flag')) {
+            square.classList.add("flag");
+            square.innerHTML = '🚩';
+            flag++;
+        } else {
+            square.classList.remove('flag')
+            square.innerHTML = '';
+            flag--;
+        }
+    }
+
+
     //action after click on cells
     function clickEventHandler(square) {
 
         if (isGameOver) return;
-        if (square.classList.contains('checked') /*|| square.classList.contains('flag')*/ ) return;
+        if (square.classList.contains('checked') || square.classList.contains('flag')) return;
         if (square.classList.contains('bomb')) {
-            console.log("Game OVer");
-            isGameOver = true;
+            gameOver(square);
         } else {
             let total = square.getAttribute('data');
             if (total != 0) {
@@ -138,21 +163,39 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             //checking south-west cell
             if (currentId < 90 && !isLeftEdge) {
-                const newId = currentId + width -1;
+                const newId = currentId + width - 1;
                 const newSquare = document.getElementById(newId);
                 clickEventHandler(newSquare);
             }
             //checking west cell
             if (currentId > 0 && !isLeftEdge) {
-                const newId = currentId -1;
+                const newId = currentId - 1;
                 const newSquare = document.getElementById(newId);
                 clickEventHandler(newSquare);
             }
 
-
         }, 10);
+    }
+
+    //gameOver
+    function gameOver(square) {
+        console.log("BOOM!!! Game Over")
+        isGameOver = true;
+
+        squares.forEach((square) => {
+            if (square.classList.contains('bomb')) {
+                square.innerHTML = '💣';
+                square.style.backgroundColor = "orange";
+            }
+        })
+        //styling for clicked bomb
+        document.getElementById(square.id).style.borderStyle = "inset";
+        document.getElementById(square.id).style.backgroundColor = "red";
 
     }
+
+
+
 
 
 

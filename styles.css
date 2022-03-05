@@ -5,6 +5,7 @@
     margin:auto;
     display: flex;   
     flex-wrap: wrap;
+    border-style: outset;
 }
 
 
@@ -12,6 +13,7 @@
     height: 40px;
     width: 40px;
     border: 4px outset;
+    text-align: center;
 }
 
 .checked{
@@ -20,5 +22,15 @@
 }
 
 .bomb{
-    background-color: orange;
+    /* background-color: rgba(255, 166, 0, 0); */
+    font-size: 28px;
+    /* opacity: 0; */
+}
+
+.flag{
+    font-size: 28px!important;
+}
+.valid{
+    font-size: 20px;
+    font-weight: bolder;
 }
